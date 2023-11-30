@@ -1,30 +1,47 @@
 from ECB import *
 # 主函数
 if __name__ == '__main__':
-    # # 读取明文
-    # plain = input('请输入明文：')
-    # # 读取密钥
-    # key = input('请输入密钥：')
-    # # 读取加密方式
-    # method = input('请输入加密方式（ECB/CBC）：')
-    #
-    # # 加密
-    # cipher = DES(plain, key, 'encrypt')
-    # print('密文：', cipher)
-    # # 解密
-    # plain = DES(cipher, key,'decrypt')
-    # print('明文：', plain)
-    # cipher = DES(0x2973a7e54ec730a3, 0xcafababedeadbeaf, 'encrypt')
-    # print(cipher)
-    # # 0x2973a7e54ec730a3
-    # print(hex(DES(cipher, 0xcafababedeadbeaf, 'decrypt')))
-    m = b'helloQAQwww'
-    key = b'lilac666'
-
-    c = des_ecb_enc(m, key)
-    print(c)
-    # b'w\xb4\n\xccM\xd6\xd1\xcd4\xe6aQ\x0c\x88\x826'
-
-    p = des_ecb_dec(c, key)
-    print(p)
-    # b'helloQAQwww'
+    text = input ("请输入文本：")
+    key = input ("请输入密钥：")
+    mode = input ("请输入模式：")
+    method = input ("请输入方法：")
+    character = input ("请输入字符集：")
+    # 加密
+    if method == 'encrypt':
+        # 读取明文
+        plain = text
+        plain = plain.encode(character)
+        # 读取密钥
+        key = key
+        key = key.encode(character)
+        # 加密
+        cipher = ''
+        if mode == 'ECB':
+            cipher = des_ecb_enc(plain, key)
+        elif mode == 'CBC':
+            cipher = des_cbc_enc(plain, key)
+        else:
+            print('DES模式错误')
+            exit(1)
+        print('密文：', cipher)
+    # 解密
+    elif method == 'decrypt':
+        # 读取密文
+        cipher = text
+        cipher = cipher.encode(character)
+        # 读取密钥
+        key = key
+        key = key.encode(character)
+        # 解密
+        plain =''
+        if mode == 'ECB':
+            plain = des_ecb_dec(cipher, key)
+        elif mode == 'CBC':
+            plain = des_cbc_dec(cipher, key)
+        else:
+            print('DES模式错误')
+            exit(1)
+        print('明文：', plain)
+    else:
+        print('DES方法错误')
+        exit(1)
